@@ -21,3 +21,4 @@ Taken from the `PORT` environment variable, default **8080**:
 scripts/test.sh
 ```
 Prints `TESTS: n/n` and exits 0 on success.
+Tested with JDK 11+.

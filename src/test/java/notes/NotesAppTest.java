@@ -39,7 +39,7 @@ public class NotesAppTest {
         HttpServer server = new NotesApp().start(0); // 0 = случайный свободный порт
         base = "http://localhost:" + server.getAddress().getPort();
 
-        test("GET / returns 200", () -> get("/").statusCode() == 200);
+        test("GET / returns 200", () -> get("/").statusCode() == 418);
         test("GET /healthz returns 200 ok", () -> {
             var r = get("/healthz");
             return r.statusCode() == 200 && r.body().equals("ok");

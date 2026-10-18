@@ -1,0 +1,16 @@
+
+.git
+.github
+.env
+.env.*
+*.pem
+*.key
+
+build
+target
+.gradle
+.idea
+.vscode
+
+*.log
+.DS_Store

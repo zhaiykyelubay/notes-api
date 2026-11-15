@@ -14,6 +14,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class NotesApp {
     private final Map<Integer, String> notes = new ConcurrentSkipListMap<>();
     private final AtomicInteger seq = new AtomicInteger();
+    private final String greeting =
+            System.getenv().getOrDefault("GREETING", "Notes API");
 
     public static void main(String[] args) throws IOException {
         int port = parsePort(System.getenv("PORT"));
@@ -35,7 +37,7 @@ public class NotesApp {
         server.createContext("/notes", this::handleNotes);
         server.createContext("/", ex -> {
             if (ex.getRequestURI().getPath().equals("/")) {
-                send(ex, 200, "text/plain", "Notes API: GET/POST /notes, GET /healthz");
+                send(ex, 200, "text/plain", greeting + ": GET/POST /notes, GET /healthz");
             } else {
                 send(ex, 404, "text/plain", "not found");
             }
@@ -57,7 +59,20 @@ public class NotesApp {
             sb.append("]");
             send(ex, 200, "application/json", sb.toString());
         } else if (method.equals("POST")) {
-            String text = new String(ex.getRequestBody().readAllBytes(), StandardCharsets.UTF_8).trim();
+            String expectedKey = System.getenv("API_KEY");
+
+            if (expectedKey != null && !expectedKey.isBlank()
+                    && !expectedKey.equals(
+                    ex.getRequestHeaders().getFirst("X-API-Key"))) {
+                send(ex, 401, "text/plain", "unauthorized");
+                return;
+            }
+
+            String text = new String(
+                    ex.getRequestBody().readAllBytes(),
+                    StandardCharsets.UTF_8
+            ).trim();
+
             if (text.isEmpty()) {
                 send(ex, 400, "text/plain", "empty note");
                 return;

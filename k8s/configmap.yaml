@@ -1,0 +1,8 @@
+# M4 starter: your settings, outside the image. Values are always text: keep the quotes.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notes-config             # 20. the name blank 8 refers to, e.g. notes-config
+data:
+  PORT: "8080"           # 21. the port your app listens on - the same number as blank 7
+  GREETING: "Hello from Notes API"           # 22. the setting from blank 9: its key, then its value

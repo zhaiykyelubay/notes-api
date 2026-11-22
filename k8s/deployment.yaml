@@ -19,7 +19,7 @@ spec:
           type: RuntimeDefault
       containers:
         - name: app
-          image: ghcr.io/zhaiykyelubay/notes-api:ab21e85c4f9768954f237812b0c3dc8ba4ebce8d
+          image: ghcr.io/zhaiykyelubay/notes-api:7303a068b2acb8aeb38e68040d7ece37860ea48d
           imagePullPolicy: IfNotPresent
           ports:
             - name: http
